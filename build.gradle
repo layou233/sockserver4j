@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group 'com.launium'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-jdk14:2.0.0-alpha7'
+    implementation 'com.github.bbottema:java-socks-proxy-server:2.0.0'
+}
+
+shadowJar {
+    // 生成包的命名规则： baseName-version-classifier.jar
+    classifier = 'all'
+    manifest {
+        attributes(
+                'Main-Class': 'com.launium.sockserver4j.Main'
+        )
+    }
+    exclude('RELEASE.txt')
+    exclude('LICENSE-2.0.txt')
+    minimize {
+        exclude(dependency('org.slf4j:slf4j-jdk14:.*'))
+    }
+}
